@@ -1,0 +1,23 @@
+﻿@model MoviesAppNetCore.ViewModels.MovieResponseModel
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body background="images/@Model.BackgroundImage">
+<h1> @Model.message</h1>
+<table>
+    @foreach (var Movie in Model.Movies)
+    {
+        <tr>
+            <td>@Movie.Id</td>
+            <td>@Movie.Name</td>
+            <td>@Movie.Genre</td>
+            <td>@Movie.Synopsis</td>
+            <td><a asp-action="MovieDetail" asp-route-id="@Movie.Id"> Details</a></td>
+        </tr>
+    }
+</table>
+<a asp-action="Addmovie">Add Movie</a>
+</body>
+</html>

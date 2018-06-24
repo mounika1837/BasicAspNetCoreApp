@@ -1,0 +1,19 @@
+﻿@model MoviesAppNetCore.Models.Movie
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <ul>
+        <li>@Model.Id</li>
+        <li>@Model.Name</li>
+        <li>@Model.Genre</li>
+        <li>@Model.Synopsis</li>
+
+    </ul>
+    <a asp-action="Movies"> Home</a>
+</div>
+</body>
+</html>
