@@ -1,18 +1,17 @@
-﻿@model MoviesAppNetCore.Models.Movie
+﻿@model Movie
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
+@{
+    ViewBag.Title = "Add Movie";
+    ViewBag.Header = "Add Movie";
+}
 <body>
-<h1>Add a Movie</h1>
     <form method="post">
-        <input asp-for="Name"/>
-        <input asp-for="Genre"/>
-        <input asp-for="Synopsis"/>
-        <input type="submit" name="save" value="Save"/>
+        <div>Name: <input asp-for="Name" /> </div>
+        <div>Genre: <input asp-for="Genre" /></div> 
+        <div>Synopsis: <input asp-for="Synopsis" />
+        </div><input type="submit" name="save" value="Save" />
     </form>
 </body>
-</html>
+
 
 

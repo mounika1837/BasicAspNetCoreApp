@@ -1,11 +1,11 @@
-﻿@model MoviesAppNetCore.ViewModels.MovieResponseModel
+﻿@model MovieResponseModel
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body background="images/@Model.BackgroundImage">
-<h1> @Model.message</h1>
+@{
+    ViewBag.Title = "Movies List";
+    ViewBag.Header = "Movies DashBoard";
+}
+
+<body>
 <table>
     @foreach (var Movie in Model.Movies)
     {
@@ -18,6 +18,10 @@
         </tr>
     }
 </table>
-<a asp-action="Addmovie">Add Movie</a>
+   
 </body>
-</html>
+@section footer
+{
+    <a asp-action="Addmovie">Add Movie</a>
+}
+

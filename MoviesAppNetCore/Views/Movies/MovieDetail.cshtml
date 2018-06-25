@@ -1,9 +1,10 @@
-﻿@model MoviesAppNetCore.Models.Movie
+﻿@model Movie
 
-<html>
-<head>
-    <title></title>
-</head>
+@{
+    ViewBag.Title = "Movie Details";
+    ViewBag.Header ="Movie Details";
+}
+
 <body>
 <div>
     <ul>
@@ -13,7 +14,10 @@
         <li>@Model.Synopsis</li>
 
     </ul>
-    <a asp-action="Movies"> Home</a>
 </div>
+@section footer
+{
+    <a asp-action="Movies"> Home</a>
+}
+
 </body>
-</html>

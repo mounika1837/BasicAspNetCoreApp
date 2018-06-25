@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MoviesAppNetCore.Filters;
 using MoviesAppNetCore.Models;
 using MoviesAppNetCore.Services;
 using MoviesAppNetCore.ViewModels;
@@ -17,6 +19,7 @@ namespace MoviesAppNetCore.Controllers
             _logger = logger;
         }
         [Route("")]
+        [AddHeaderFilter("success","true")]
         public IActionResult Movies()
         {
             _logger.LogInformation("In Movies Controller");

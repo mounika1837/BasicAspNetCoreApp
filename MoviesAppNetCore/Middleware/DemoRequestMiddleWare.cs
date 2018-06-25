@@ -1,6 +1,5 @@
 ﻿
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 namespace MoviesAppNetCore.Middleware
@@ -25,16 +24,6 @@ namespace MoviesAppNetCore.Middleware
             }
 
             return _next(context);
-        }
-    }
-
-
-    public static class DemoRequestMiddleWareExtensions
-    {
-        public static IApplicationBuilder UseDemoMiddleWare(
-            this IApplicationBuilder builder,string env)
-        {
-            return builder.UseMiddleware<DemoRequestMiddleWare>(env);
         }
     }
 }

@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using MoviesAppNetCore.Controllers;
+using MoviesAppNetCore.Data;
+using MoviesAppNetCore.Filters;
 using MoviesAppNetCore.Middleware;
 using MoviesAppNetCore.Services;
 using NLog.Extensions.Logging;
@@ -16,44 +19,39 @@ namespace MoviesAppNetCore
 {
     public class Startup
     {
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+       
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-    
-            if (env.IsDevelopment())
+            services.AddDbContext<MovieDBContext>(options =>
+                options.UseSqlServer(_configuration.GetConnectionString("Movies")));
+           
+            services.AddScoped<IMovieRepository,SqlMovieData>();
+            services.AddMvc(options =>
             {
-                app.UseDeveloperExceptionPage();
-            }
+                options.Filters.Add(new LogFilterActionAttribute());
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
             });
         }
 
-        public void ConfigureDevelopmentServices(IServiceCollection services)
-        {
-            services.AddMvc();
-            services.AddSingleton<IMovieRepository,InMemoryMovieRepository>();
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void ConfigureDevelopment(IApplicationBuilder app, IHostingEnvironment env,IConfiguration configuration,ILoggerFactory loggerFactory)
+        public void ConfigureDevelopment(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory)
         {
    
             var welcomeString = "Welcome";
 
-            var MachineDetails = configuration.GetSection("MachineDetails").Get<MachineDetails>();
+            var MachineDetails = _configuration.GetSection("MachineDetails").Get<MachineDetails>();
 
+
+            //Add NLog Configuration
             loggerFactory.AddNLog();
             env.ConfigureNLog("NLog.config");
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,14 +87,28 @@ namespace MoviesAppNetCore
                 await context.Response.WriteAsync($"{welcomeString}:{env.EnvironmentName}, MachineDetails: {machineDetails}");
             });
         }
-    }
 
-    public class MachineDetails
-    {
-        public string MachineName { get; set; }
-        public string ram { get; set; }
-        public string os { get; set; }
-        public string processor { get; set; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+        }
 
     }
 }
