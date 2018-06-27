@@ -1,0 +1,17 @@
+﻿@page
+@model MoviesAppNetCore.Pages.SearchMovieModel
+@{
+    ViewData["Title"] = "SearchMovie";
+}
+
+<h2>SearchMovie</h2>
+<form>
+    <input id="search" name="id"/> Search
+    <input type="submit"/>
+</form>
+
+@Model.movie.Id
+@Model.movie.Name
+@Model.movie.Genre
+@Model.movie.Synopsis
+
